@@ -499,6 +499,66 @@
   @media (prefers-reduced-motion: reduce){
     .panel{ animation:none; }
   }
+
+  /* ---------- Install button ---------- */
+  .install-row{
+    display:none;
+    justify-content:center;
+    margin-top:18px;
+    position:relative;
+  }
+  .install-row.show{ display:flex; }
+  .install-btn{
+    font-family:'JetBrains Mono', monospace;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:0.03em;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:11px 22px;
+    min-height:44px;
+    border-radius:999px;
+    border:1.5px solid var(--ember-bright);
+    background:transparent;
+    color:var(--ember-bright);
+    cursor:pointer;
+    transition:background .12s ease, color .12s ease, transform .12s ease;
+  }
+  .install-btn svg{ width:16px; height:16px; flex-shrink:0; }
+  @media (hover:hover) and (pointer:fine){
+    .install-btn:hover{ background:var(--ember-bright); color:var(--char); }
+  }
+  .install-btn:active{ transform:scale(0.96); }
+
+  .install-tip{
+    display:none;
+    position:absolute;
+    top:calc(100% + 10px);
+    left:50%;
+    transform:translateX(-50%);
+    width:260px;
+    max-width:80vw;
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:var(--radius-s);
+    padding:14px 16px;
+    font-family:'Roboto', sans-serif;
+    font-size:13px;
+    line-height:1.5;
+    color:var(--smoke);
+    text-align:left;
+    box-shadow:0 8px 24px rgba(0,0,0,0.4);
+    z-index:5;
+  }
+  .install-tip.show{ display:block; }
+  .install-tip strong{ color:var(--bone); }
+  .install-tip .share-icon{
+    display:inline-flex;
+    vertical-align:-3px;
+    width:14px; height:14px;
+    margin:0 2px;
+  }
 </style>
 </head>
 <body>
@@ -511,6 +571,18 @@
   <div class="unit-toggle" role="group" aria-label="Choose temperature unit">
     <button type="button" class="unit-btn" data-unit="C">°C</button>
     <button type="button" class="unit-btn" data-unit="F">°F</button>
+  </div>
+
+  <div class="install-row" id="installRow">
+    <button type="button" class="install-btn" id="installBtn" aria-label="Install this app">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+      Install App
+    </button>
+    <div class="install-tip" id="installTip" role="tooltip">
+      <strong>Add to Home Screen:</strong> tap the Share icon
+      <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+      in Safari's toolbar, then choose <strong>Add to Home Screen</strong>.
+    </div>
   </div>
 </header>
 
@@ -1030,6 +1102,82 @@
       });
     });
   }
+</script>
+
+<script>
+  // ---------- install button ----------
+  (function(){
+    const installRow = document.getElementById('installRow');
+    const installBtn  = document.getElementById('installBtn');
+    const installTip  = document.getElementById('installTip');
+    let deferredPrompt = null;
+
+    const isStandalone = () =>
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.navigator.standalone === true;
+
+    const isIOS = () =>
+      /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+    function showInstallRow(){
+      if (isStandalone()) return;
+      installRow.classList.add('show');
+    }
+    function hideInstallRow(){
+      installRow.classList.remove('show');
+      installTip.classList.remove('show');
+    }
+
+    // Already installed / running as an app: never show the button.
+    if (isStandalone()) {
+      hideInstallRow();
+    } else if (isIOS()) {
+      // Safari on iOS has no beforeinstallprompt — offer manual instructions instead.
+      showInstallRow();
+    }
+
+    // Chromium browsers (Chrome, Edge, Samsung Internet, etc.)
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      if (isStandalone()) return;
+      deferredPrompt = e;
+      showInstallRow();
+    });
+
+    window.addEventListener('appinstalled', () => {
+      deferredPrompt = null;
+      hideInstallRow();
+    });
+
+    installBtn.addEventListener('click', async () => {
+      if (deferredPrompt) {
+        const promptEvent = deferredPrompt;
+        deferredPrompt = null;
+        installTip.classList.remove('show');
+        try {
+          promptEvent.prompt();
+          await promptEvent.userChoice;
+        } catch (err) {
+          console.warn('Install prompt failed:', err);
+        }
+        hideInstallRow();
+        return;
+      }
+      // No native prompt available (iOS Safari) — toggle instructions.
+      installTip.classList.toggle('show');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!installRow.contains(e.target)) installTip.classList.remove('show');
+    });
+
+    // If the page becomes standalone later (e.g. launched from home screen
+    // in a fresh tab after install), make sure the button stays hidden.
+    window.matchMedia('(display-mode: standalone)').addEventListener?.('change', (e) => {
+      if (e.matches) hideInstallRow();
+    });
+  })();
 </script>
 
 </body>
