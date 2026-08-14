@@ -1,0 +1,50 @@
+{
+  "name": "Low and Slow — A Smokehouse Field Guide",
+  "short_name": "Low and Slow",
+  "description": "Temps, times, rubs, and technique for brisket, chuck, pulled pork, and ribs.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#363636",
+  "theme_color": "#df5656",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-1.png",
+      "sizes": "1605x847",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Browse cuts and dial in the target internal and smoker chamber temps at a glance"
+    }
+  ],
+  "id": "LSBBQFG",
+  "lang": "en",
+  "categories": [
+    "books &amp;amp;amp; reference",
+    "education",
+    "food",
+    "lifestyle",
+    "reference",
+    "utilities"
+  ]
+}
