@@ -534,7 +534,47 @@
     border-radius:var(--radius-s);
     border:1px solid var(--line);
     background:var(--panel);
+    cursor:zoom-in;
+    transition:opacity .12s ease;
   }
+  @media (hover:hover) and (pointer:fine){
+    .product-gallery img:hover{ opacity:0.85; }
+  }
+
+  /* ---------- Image lightbox ---------- */
+  .lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(10,10,11,0.92);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:24px;
+    z-index:1000;
+  }
+  .lightbox.open{ display:flex; }
+  .lightbox img{
+    max-width:100%;
+    max-height:100%;
+    border-radius:var(--radius-m);
+    box-shadow:0 20px 60px rgba(0,0,0,0.5);
+  }
+  .lightbox-close{
+    position:fixed;
+    top:18px;
+    right:18px;
+    width:44px;
+    height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:50%;
+    border:1.5px solid var(--line);
+    background:var(--panel);
+    color:var(--bone);
+    cursor:pointer;
+  }
+  .lightbox-close:hover{ color:var(--ember-bright); border-color:var(--ember-bright); }
   .product-head{ text-align:center; }
   .product-head .eyebrow{ font-size:12px; color:var(--kraft-dim); font-weight:600; }
   .product-head h2{ font-size:30px; margin:8px 0 6px; color:var(--bone); }
@@ -786,6 +826,36 @@
 <main id="panels"></main>
 
 <footer>Internal temperatures are guidelines, not guarantees — always cook to tenderness, not just the number.</footer>
+
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button type="button" class="lightbox-close" aria-label="Close" onclick="closeLightbox(event)">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18"/><path d="M6 6l12 12"/></svg>
+  </button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
+<script>
+  function openLightbox(src, alt){
+    const lb = document.getElementById('lightbox');
+    const img = document.getElementById('lightboxImg');
+    img.src = src;
+    img.alt = alt;
+    lb.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e){
+    if (e){
+      e.stopPropagation();
+      if (e.currentTarget.id === 'lightbox' && e.target.id !== 'lightbox') return;
+    }
+    const lb = document.getElementById('lightbox');
+    lb.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
 
 <script>
   // iOS Safari only applies the :active pseudo-class when a touch listener
@@ -1298,7 +1368,7 @@
               </div>
             </div>
             <div class="product-gallery">
-              ${item.images.map((src,i) => `<img src="${src}" alt="${item.title} — photo ${i+1}" loading="lazy">`).join('')}
+              ${item.images.map((src,i) => `<img src="${src}" alt="${item.title} — photo ${i+1}" loading="lazy" onclick="openLightbox('${src}', '${item.title.replace(/'/g, "\\'")} — photo ${i+1}')">`).join('')}
             </div>
           </div>
 
