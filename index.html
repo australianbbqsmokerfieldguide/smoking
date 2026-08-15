@@ -104,29 +104,43 @@
   }
   .masthead h1 span{ color:var(--ember-bright); }
   .masthead .sub{
-    max-width:520px;
+    max-width:600px;
     margin:16px auto 0;
     color:var(--smoke);
     font-size:16px;
     font-style:italic;
   }
+  .masthead .tagline{
+    display:inline-block;
+    margin:18px auto 0;
+    padding:8px 18px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:var(--panel);
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ember-bright);
+  }
 
   .unit-toggle{
     display:inline-flex;
-    margin:22px auto 0;
+    margin:0 auto 14px;
     border:1px solid var(--line);
     border-radius:999px;
-    padding:4px;
+    padding:2px;
     background:var(--panel);
-    gap:2px;
+    gap:1px;
   }
   .unit-btn{
     font-family:'JetBrains Mono', monospace;
-    font-size:14px;
+    font-size:7px;
     font-weight:700;
     letter-spacing:0.03em;
-    padding:11px 24px;
-    min-height:44px;
+    padding:5px 12px;
+    min-height:22px;
     display:inline-flex;
     align-items:center;
     justify-content:center;
@@ -584,11 +598,8 @@
   <img class="smoker-icon" src="smoker-icon.png" alt="Barrel smoker with rising smoke">
   <span class="eyebrow">A Field Guide To</span>
   <h1>Low &amp; <span>Slow</span></h1>
-  <p class="sub">Five cuts, one fire. Pick your unit below and every dial, stat, and step falls in line — no converting in your head with smoke in your eyes.</p>
-  <div class="unit-toggle" role="group" aria-label="Choose temperature unit">
-    <button type="button" class="unit-btn" data-unit="C">°C</button>
-    <button type="button" class="unit-btn" data-unit="F">°F</button>
-  </div>
+  <p class="sub">Great cuts, one fire. Pick your unit below and every dial, stat, and step falls in line — no converting in your head with smoke in your eyes. We hunt down smokers, grills, and tools that perform like the expensive stuff — without the expensive price tag. Quality equipment, honest prices, better barbecue.</p>
+  <span class="tagline">Great Gear. Fair Prices. No Compromise.</span>
 
   <div class="install-row" id="installRow">
     <button type="button" class="install-btn" id="installBtn" aria-label="Install this app">
@@ -602,6 +613,13 @@
     </div>
   </div>
 </header>
+
+<div style="text-align:center; padding-top:28px;">
+  <div class="unit-toggle" role="group" aria-label="Choose temperature unit">
+    <button type="button" class="unit-btn" data-unit="C">°C</button>
+    <button type="button" class="unit-btn" data-unit="F">°F</button>
+  </div>
+</div>
 
 <div class="menu-bar">
   <div class="select-wrap">
