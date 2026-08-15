@@ -480,6 +480,23 @@
     font-size:12px;
   }
 
+  /* ---------- Wood guide panel ---------- */
+  .wood-intro{ padding:36px 0 8px; text-align:center; }
+  .wood-intro .eyebrow{ font-size:12px; color:var(--kraft-dim); font-weight:600; }
+  .wood-intro h2{ font-size:36px; margin:8px 0 10px; color:var(--bone); }
+  .wood-intro p{ color:var(--smoke); line-height:1.55; max-width:60ch; margin:0 auto; }
+  .wood-guide-card{
+    max-width:640px;
+    margin:28px auto 0;
+    padding:12px;
+  }
+  .wood-guide-card img{
+    display:block;
+    width:100%;
+    height:auto;
+    border-radius:var(--radius-m);
+  }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 720px){
     .hero{ grid-template-columns:1fr; text-align:center; }
@@ -973,6 +990,12 @@
         'Pour the hot brine over the onions, making sure they\u2019re fully submerged.',
         'Let cool uncovered to room temperature, then cover and rest at least 1 hour before serving. Keeps refrigerated up to 2 weeks.'
       ]
+    },
+    {
+      id:'woodguide', tabName:'Wood Flavour Guide', tabSub:'Wood Guide', icon:'wood',
+      isWoodGuide:true,
+      category:'Reference · Fuel', title:'Smoking Wood Flavour Guide',
+      desc:'A quick-reference chart matching wood types to what they pair well with — beef, lamb, pork, chicken, seafood, cheese, and veggies.'
     }
   ];
 
@@ -1050,6 +1073,21 @@
       const section = document.createElement('section');
       section.className = 'panel' + (isActive ? ' active' : '');
       section.id = `panel-${item.id}`;
+
+      if (item.isWoodGuide) {
+        section.innerHTML = `
+          <div class="wood-intro">
+            <span class="eyebrow">${item.category}</span>
+            <h2>${item.title}</h2>
+            <p>${item.desc}</p>
+          </div>
+          <div class="card wood-guide-card">
+            <img src="wood-guide.jpg" alt="Smoking wood flavour guide — a chart pairing wood types (alder, apple, apricot, coffee, cherry, hickory, jam, mallee, maple, mesquite, nectarine, oak, olive, peach, pear, pecan, plum, tea, walnut) with beef, lamb, pork, chicken, seafood, cheese, and veggies." loading="lazy">
+          </div>
+        `;
+        panels.appendChild(section);
+        return;
+      }
 
       if (item.isSideDish) {
         section.innerHTML = `
