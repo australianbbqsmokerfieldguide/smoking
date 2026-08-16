@@ -1250,6 +1250,7 @@
       ratingCount:9,
       buyUrl:'https://www.bunnings.com.au/matador-45cm-catalyst-pro-bullet-smoker_p0178178',
       buyLabel:'View & Buy at Bunnings',
+      sourceNote:'Specs via <a href="https://www.bunnings.com.au/matador-45cm-catalyst-pro-bullet-smoker_p0178178" target="_blank" rel="noopener">Bunnings</a>. Review based on owner feedback aggregated from Bunnings and ProductReview.com.au.',
       images:[
         'matador-1.jpg',
         'matador-2.jpg'
@@ -1288,6 +1289,7 @@
       title:'Kisfam Wireless Meat Thermometer, 2 Probes',
       buyUrl:'https://www.amazon.com.au/Kisfam-Wireless-Meat-Thermometer-Bluetooth/dp/B0DXVFN52C?th=1&linkCode=ll2&tag=australianbbq-22&linkId=28fc48d8091998d3c19faf3945661475&ref_=as_li_ss_tl',
       buyLabel:'View & Buy on Amazon',
+      sourceNote:'As an Amazon Associate we earn from qualifying purchases. Prices and availability are accurate as of the date shown and are subject to change.',
       images:[
         'kisfam-bluetooth-diagram.jpg'
       ],
@@ -1441,7 +1443,7 @@
             </div>
           </div>
 
-          <p class="review-source">Specs via <a href="${item.buyUrl}" target="_blank" rel="noopener">Bunnings</a>. Review based on owner feedback aggregated from Bunnings and ProductReview.com.au.</p>
+          <p class="review-source">${item.sourceNote || ''}</p>
         `;
         panels.appendChild(section);
         return;
