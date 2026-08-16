@@ -527,6 +527,10 @@
     max-width:520px;
     margin:20px auto 0;
   }
+  .product-gallery.single{
+    grid-template-columns:1fr;
+    max-width:640px;
+  }
   .product-gallery img{
     width:100%;
     aspect-ratio:1/1;
@@ -536,6 +540,10 @@
     background:var(--panel);
     cursor:zoom-in;
     transition:opacity .12s ease;
+  }
+  .product-gallery.single img{
+    aspect-ratio:auto;
+    height:auto;
   }
   @media (hover:hover) and (pointer:fine){
     .product-gallery img:hover{ opacity:0.85; }
@@ -1241,6 +1249,7 @@
       ratingValue:4.6,
       ratingCount:9,
       buyUrl:'https://www.bunnings.com.au/matador-45cm-catalyst-pro-bullet-smoker_p0178178',
+      buyLabel:'View & Buy at Bunnings',
       images:[
         'matador-1.jpg',
         'matador-2.jpg'
@@ -1270,6 +1279,42 @@
         'Built-in hood thermometer fogs up over time',
         'Best paired with an aftermarket probe thermometer',
         'Castor wheels are handy but not built for rough ground'
+      ]
+    },
+    {
+      id:'kisfam-wireless-thermometer', tabName:'Kisfam Wireless Meat Thermometer, 2 Probes', tabSub:'Accessories', icon:'thermometer',
+      isProductReview:true,
+      category:'Gear Review · Wireless Thermometer',
+      title:'Kisfam Wireless Meat Thermometer, 2 Probes',
+      buyUrl:'https://www.amazon.com.au/Kisfam-Wireless-Meat-Thermometer-Bluetooth/dp/B0DXVFN52C',
+      buyLabel:'View & Buy on Amazon',
+      images:[
+        'kisfam-bluetooth-diagram.jpg'
+      ],
+      features:[
+        'Two ultra-thin, food-grade stainless steel probes — one for the meat, one for ambient chamber temperature — so you can track both at once.',
+        'Bluetooth range up to roughly 100–150 metres line-of-sight, easily enough to reach from the smoker in the yard to the couch inside.',
+        'Free CHEFBBQ app with live cooking-curve graphs, target-temp alerts, and an early-warning notification before your meat hits the mark.',
+        'Built-in magnetic host unit with its own on-device display, so you can check temps at the smoker without pulling out your phone.',
+        'IP67 waterproof housing rated for outdoor use in any weather.',
+        '°C/°F toggle on the host unit itself, handy if you\u2019ve already got this site\u2019s unit toggle set the way you like it.'
+      ],
+      reviewParagraphs:[
+        'A wireless dual-probe thermometer like this is the single biggest upgrade you can make to a low-and-slow cook, and the Kisfam covers the basics well: one probe tracks the meat, the other tracks the chamber, and both numbers land in the app in real time.',
+        'The magnetic host unit is the standout feature — it snaps onto the side of a smoker or fridge and gives you a readable display without needing your phone in hand, which matters when your hands are covered in rub or sauce.',
+        'Bluetooth range is genuinely long enough to leave the smoker outside and keep an eye on the cook from indoors, though like any Bluetooth thermometer, walls and distance will eat into the quoted line-of-sight figure — expect somewhat less through a couple of internal walls.',
+        'For the price point, it\u2019s a sensible first wireless thermometer: simple to pair, straightforward app, and it solves the main problem of a bullet smoker\u2019s built-in hood gauge — namely, not having to lift the lid every twenty minutes to check where things are at.'
+      ],
+      pros:[
+        'Two probes cover meat and ambient temp together',
+        'Magnetic host display means no phone needed at the smoker',
+        'Long Bluetooth range for indoor monitoring',
+        'IP67 rated for all-weather outdoor use'
+      ],
+      cons:[
+        'Real-world Bluetooth range drops with walls/obstructions',
+        'Relies on the CHEFBBQ app for full graphing features',
+        'Probe cables are a fixed length — plan probe placement accordingly'
       ]
     }
   ];
@@ -1350,24 +1395,25 @@
       section.id = `panel-${item.id}`;
 
       if (item.isProductReview) {
-        const stars = '★'.repeat(Math.round(item.ratingValue)) + '☆'.repeat(5 - Math.round(item.ratingValue));
+        const hasRating = typeof item.ratingValue === 'number';
+        const stars = hasRating ? '★'.repeat(Math.round(item.ratingValue)) + '☆'.repeat(5 - Math.round(item.ratingValue)) : '';
         section.innerHTML = `
           <div class="product-hero">
             <div class="product-head">
               <span class="eyebrow">${item.category}</span>
               <h2>${item.title}</h2>
               <div class="product-meta">
-                <span class="product-price">${item.price}</span>
-                <span class="product-rating"><span class="stars">${stars}</span> ${item.ratingValue} (${item.ratingCount} reviews)</span>
+                ${item.price ? `<span class="product-price">${item.price}</span>` : ''}
+                ${hasRating ? `<span class="product-rating"><span class="stars">${stars}</span> ${item.ratingValue} (${item.ratingCount} reviews)</span>` : ''}
               </div>
               <div class="product-cta">
                 <a class="product-buy-btn" href="${item.buyUrl}" target="_blank" rel="noopener">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                  View & Buy at Bunnings
+                  ${item.buyLabel || 'View & Buy'}
                 </a>
               </div>
             </div>
-            <div class="product-gallery">
+            <div class="product-gallery${item.images.length === 1 ? ' single' : ''}">
               ${item.images.map((src,i) => `<img src="${src}" alt="${item.title} — photo ${i+1}" loading="lazy" onclick="openLightbox('${src}', '${item.title.replace(/'/g, "\\'")} — photo ${i+1}')">`).join('')}
             </div>
           </div>
