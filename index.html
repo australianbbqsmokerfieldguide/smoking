@@ -238,6 +238,14 @@
   }
   .hero-info .eyebrow{ font-size:12px; color:var(--kraft-dim); font-weight:600; }
   .hero-info h2{ font-size:40px; margin:6px 0 10px; color:var(--bone); }
+  .cut-heading{ display:flex; align-items:center; gap:18px; margin:6px 0 10px; }
+  .cut-heading h2{ margin:0; }
+  .cut-heading-img{ width:150px; height:auto; border-radius:8px; flex:0 0 auto; }
+  @media (max-width:560px){
+    .cut-heading{ gap:10px; }
+    .cut-heading-img{ width:112px; }
+    .cut-heading h2{ font-size:34px; }
+  }
   .cut-desc{ color:var(--smoke); line-height:1.55; margin:0 0 20px; max-width:52ch; }
 
   .quickstats{ display:flex; flex-wrap:wrap; gap:26px; }
@@ -1017,7 +1025,7 @@
       rub:[
         {name:'Dark brown sugar, firmly packed', grams:165},
         {name:'White sugar', grams:150},
-        {name:'American paprika', grams:60},
+        {name:'Smoked paprika', grams:60},
         {name:'Garlic powder', grams:30},
         {name:'Black pepper, ground', grams:12},
         {name:'Ground ginger', grams:10},
@@ -1088,10 +1096,10 @@
       tag:'Smoker', time:'2–3 hrs', temp:'107–121°C smoker', yield:'Serves 6–8',
       desc:'Canned beans doctored with brisket trimmings or bacon, onion, and a splash of BBQ sauce, then smoked uncovered in a foil pan to soak up flavour from whatever\u2019s on the grate above.',
       ingredients:[
-        {name:'Pinto or Great Northern beans (canned), drained', amt:'2 × 425g'},
+        {name:'Borlotti beans, drained', amt:'2 × 425g'},
         {name:'Bacon or brisket trimmings, diced', amt:'115 g'},
         {name:'Yellow onion, diced', amt:'½ onion'},
-        {name:'Green bell pepper, diced', amt:'½ pepper'},
+        {name:'Green capsicum, diced', amt:'½ pepper'},
         {name:'Garlic, minced', amt:'2 cloves'},
         {name:'BBQ sauce', amt:'120 ml'},
         {name:'Yellow mustard', amt:'2 tbsp'},
@@ -1119,7 +1127,7 @@
         {name:'All-purpose flour', amt:'60 g'},
         {name:'Whole milk, warmed', amt:'700 ml'},
         {name:'Sharp cheddar, shredded', amt:'340 g'},
-        {name:'Gruyère or Monterey Jack, shredded', amt:'115 g'},
+        {name:'Sharp or mature Tasty cheese, shredded', amt:'115 g'},
         {name:'Mustard powder', amt:'1 tsp'},
         {name:'Smoked paprika', amt:'½ tsp'},
         {name:'Salt & black pepper', amt:'To taste'},
@@ -1148,14 +1156,14 @@
         {name:'Chili powder', amt:'To taste'},
         {name:'Cotija or parmesan, crumbled', amt:'For serving'},
         {name:'Lime, cut into wedges', amt:'1 lime'},
-        {name:'Cilantro, chopped (optional)', amt:'To taste'}
+        {name:'Coriander, chopped (optional)', amt:'To taste'}
       ],
       method:[
         'Husk the corn completely, pulling away all the silk, and pat the ears dry.',
         'Brush each ear all over with melted butter and season lightly with salt.',
         'Place directly on the smoker grate at 107–121°C for about 45 minutes, turning every 10–15 minutes.',
         'Pull once lightly charred in spots and tender when pierced with a knife.',
-        'Finish with a squeeze of lime, a dusting of chili powder, crumbled cotija, and cilantro if using.'
+        'Finish with a squeeze of lime, a dusting of chili powder, crumbled cotija, and coriander if using.'
       ]
     },
     {
@@ -1534,7 +1542,11 @@
           </div>
           <div class="hero-info">
             <span class="eyebrow">${item.category}</span>
-            <h2>${item.title}</h2>
+            ${['brisket','chuck','beefrib'].includes(item.id) ? `
+              <div class="cut-heading">
+                <h2>${item.title}</h2>
+                <img class="cut-heading-img" src="assets/${item.id === 'beefrib' ? 'short-ribs' : item.id}.webp" alt="Diagram showing where the ${item.title.toLowerCase()} cut comes from">
+              </div>` : `<h2>${item.title}</h2>`}
             <p class="cut-desc">${item.desc}</p>
             <div class="quickstats">
               <div>
