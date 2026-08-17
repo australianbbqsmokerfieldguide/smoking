@@ -1542,10 +1542,10 @@
           </div>
           <div class="hero-info">
             <span class="eyebrow">${item.category}</span>
-            ${['brisket','chuck','beefrib'].includes(item.id) ? `
+            ${['brisket','chuck','beefrib','pulledpork','ribs'].includes(item.id) ? `
               <div class="cut-heading">
                 <h2>${item.title}</h2>
-                <img class="cut-heading-img" src="assets/${item.id === 'beefrib' ? 'short-ribs' : item.id}.webp" alt="Diagram showing where the ${item.title.toLowerCase()} cut comes from">
+                <img class="cut-heading-img" src="assets/${item.id === 'beefrib' ? 'short-ribs.webp' : item.id === 'pulledpork' ? 'pulledpork.jpg' : item.id === 'ribs' ? 'ribs.jpg' : item.id + '.webp'}" alt="Diagram showing where the ${item.title.toLowerCase()} cut comes from">
               </div>` : `<h2>${item.title}</h2>`}
             <p class="cut-desc">${item.desc}</p>
             <div class="quickstats">
