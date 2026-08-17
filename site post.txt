@@ -1,0 +1,23 @@
+## Low & Slow — Australian BBQ Smoker Field Guide
+
+I’ve been putting together an Australian-focused BBQ smoker field guide and wanted to share it with the BBQ community.
+
+It’s designed as a practical reference for cooking low and slow, covering:
+
+* Brisket, chuck roast, beef ribs, pulled pork and ribs so far
+* Smoker and internal meat temperatures
+* Cook times, resting and holding
+* Dry rub recipes
+* Smoking wood flavour guide
+* Step-by-step smoking methods
+* BBQ sides and recipes
+* Smoker and BBQ equipment reviews
+* °C / °F temperature conversion
+
+The site can also be **installed like an app on your phone or tablet**, allowing you to use the guide **offline without an internet connection** while you’re out back in the bush.
+
+The aim is to keep it simple and useful while you’re actually cooking, rather than filling it with unnecessary theory.
+
+I’m still building it, so feedback, corrections and suggestions are very welcome.
+
+https://australianbbqsmokerfieldguide.github.io/smoking/
