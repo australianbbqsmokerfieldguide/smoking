@@ -8,6 +8,12 @@
   <title>Low &amp; Slow — BBQ Field Guide</title>
   <link rel="icon" href="icon-192.png" type="image/png">
   <link rel="apple-touch-icon" href="icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="background-color" content="#121316">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Low & Slow">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Zilla+Slab:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -78,6 +84,26 @@
     .button-primary:hover{background:#ed5369;transform:translateY(-2px);box-shadow:0 16px 36px rgba(156,43,60,.3)}
     .button svg{width:17px;height:17px}
     .small-note{font-family:'JetBrains Mono',monospace;color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.1em}
+    .install-row{display:none;position:relative;margin-top:6px}
+    .install-row.show{display:inline-flex}
+    .install-btn{
+      font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;letter-spacing:.03em;
+      display:inline-flex;align-items:center;gap:8px;padding:11px 22px;min-height:44px;
+      border-radius:999px;border:1.5px solid var(--ember);background:transparent;color:var(--ember);
+      cursor:pointer;transition:background .12s ease,color .12s ease,transform .12s ease
+    }
+    .install-btn svg{width:16px;height:16px;flex-shrink:0}
+    @media(hover:hover) and (pointer:fine){.install-btn:hover{background:var(--ember);color:var(--char)}}
+    .install-btn:active{transform:scale(.96)}
+    .install-tip{
+      display:none;position:absolute;top:calc(100% + 10px);left:0;width:260px;max-width:80vw;
+      background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+      font-family:'Zilla Slab',serif;font-size:13px;line-height:1.5;color:var(--smoke);
+      text-align:left;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:5
+    }
+    .install-tip.show{display:block}
+    .install-tip strong{color:var(--bone)}
+    .install-tip .share-icon{display:inline-flex;vertical-align:-3px;width:14px;height:14px;margin:0 2px}
     .smoker-stage{position:relative;min-height:440px;display:grid;place-items:center}
     .smoker{width:min(100%,370px);filter:drop-shadow(0 34px 30px rgba(0,0,0,.46))}
     .ember-dot{filter:drop-shadow(0 0 10px rgba(217,68,89,.8))}
@@ -143,6 +169,17 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </a>
             <span class="small-note">Built for the backyard smoker</span>
+            <div class="install-row" id="installRow">
+              <button type="button" class="install-btn" id="installBtn" aria-label="Install this app">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M5 21h14"/></svg>
+                Install App
+              </button>
+              <div class="install-tip" id="installTip" role="tooltip">
+                <strong>Add to Home Screen:</strong> tap the Share icon
+                <svg class="share-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+                in Safari's toolbar, then choose <strong>Add to Home Screen</strong>.
+              </div>
+            </div>
           </div>
         </div>
         <div class="smoker-stage" aria-hidden="true">
@@ -186,5 +223,84 @@
   </main>
 
   <footer><div class="shell footer-row"><span>Low &amp; Slow — BBQ Field Guide</span><span>Cook to tenderness, not just the number.</span></div></footer>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(err => {
+          console.warn('Service worker registration failed:', err);
+        });
+      });
+    }
+  </script>
+
+  <script>
+    (function(){
+      const installRow = document.getElementById('installRow');
+      const installBtn  = document.getElementById('installBtn');
+      const installTip  = document.getElementById('installTip');
+      let deferredPrompt = null;
+
+      const isStandalone = () =>
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true;
+
+      const isIOS = () =>
+        /iphone|ipad|ipod/i.test(navigator.userAgent) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+      function showInstallRow(){
+        if (isStandalone()) return;
+        installRow.classList.add('show');
+      }
+      function hideInstallRow(){
+        installRow.classList.remove('show');
+        installTip.classList.remove('show');
+      }
+
+      if (isStandalone()) {
+        hideInstallRow();
+      } else if (isIOS()) {
+        showInstallRow();
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        if (isStandalone()) return;
+        deferredPrompt = e;
+        showInstallRow();
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredPrompt = null;
+        hideInstallRow();
+      });
+
+      installBtn.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          const promptEvent = deferredPrompt;
+          deferredPrompt = null;
+          installTip.classList.remove('show');
+          try {
+            promptEvent.prompt();
+            await promptEvent.userChoice;
+          } catch (err) {
+            console.warn('Install prompt failed:', err);
+          }
+          hideInstallRow();
+          return;
+        }
+        installTip.classList.toggle('show');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!installRow.contains(e.target)) installTip.classList.remove('show');
+      });
+
+      window.matchMedia('(display-mode: standalone)').addEventListener?.('change', (e) => {
+        if (e.matches) hideInstallRow();
+      });
+    })();
+  </script>
 </body>
 </html>

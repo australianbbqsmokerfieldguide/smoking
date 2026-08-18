@@ -1,13 +1,14 @@
-const CACHE_NAME = 'low-and-slow-v12';
+const CACHE_NAME = 'low-and-slow-v13';
 const APP_SHELL = [
   './',
   './index.html',
+  './field-guide.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png',
   './icon-512-maskable.png',
   './screenshot-1.png',
-  './smoker-icon.png'
+  './smoker-web.webp'
 ];
 
 // Install: pre-cache the app shell
