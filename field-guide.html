@@ -389,6 +389,15 @@
   .side-stack{ display:flex; flex-direction:column; gap:20px; }
 
   .chips{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0; padding:0; }
+  .wood-alt-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:.1em;
+    color:var(--kraft-dim);
+    margin:14px 0 8px;
+  }
   .chips li{
     background:var(--panel);
     border:1px solid var(--line);
@@ -1013,6 +1022,7 @@
       holdC:[63,74],
       cookTimeNote:'≈75–105 min per kg — about 12–18 hrs for a full packer',
       wood:['River red gum','Ironbark','Mallee'],
+      woodUS:['Post oak','Hickory','Pecan'],
       rubNote:'Makes about 140g — enough for one 5–6.5kg packer. Classic Texas "Dalmatian" rub: coarse and simple, so the beef and smoke do the talking.',
       rub:[
         {name:'Coarse black pepper', grams:60},
@@ -1046,7 +1056,8 @@
       restNote:'30–45 min, loosely tented',
       holdC:[63,74],
       cookTimeNote:'≈90 min per kg — about 5–7 hrs total',
-      wood:['River red gum','Ironbark','Mallee (light hand)'],
+      wood:['River red gum','Ironbark','Mallee'],
+      woodUS:['Oak','Hickory','Mesquite'],
       rubNote:'Makes about 130g — enough for one 1.5–2.5kg chuck roast. Bolder than a brisket rub; chuck can carry the extra sweetness and spice.',
       rub:[
         {name:'Coarse kosher salt', grams:25},
@@ -1083,7 +1094,8 @@
       restNote:'30–45 min, loosely tented',
       holdC:[63,74],
       cookTimeNote:'≈8–10 hrs for a 3-bone plate rack',
-      wood:['River red gum','Ironbark','Mallee (light hand)'],
+      wood:['River red gum','Ironbark','Mallee'],
+      woodUS:['Post oak','Hickory','Mesquite'],
       rubNote:'Makes about 100g — enough for one 3-bone plate rack. Same coarse salt-and-pepper logic as brisket; the meat is thick enough to take it heavy.',
       rub:[
         {name:'Coarse black pepper', grams:45},
@@ -1118,6 +1130,7 @@
       holdC:[63,74],
       cookTimeNote:'≈105–120 min per kg — about 8–10 hrs for a 4kg butt',
       wood:['Ironbark','Apple','Cherry'],
+      woodUS:['Hickory','Apple','Cherry'],
       rubNote:'Makes about 460g — enough to coat one 4–4.5kg butt generously. Mix, then pat it on an hour ahead (or overnight, uncovered, in the fridge) so it sets into a paste before the smoker.',
       rub:[
         {name:'Dark brown sugar, firmly packed', grams:165},
@@ -1157,6 +1170,7 @@
       restNote:'10–15 min, loosely tented',
       cookTimeNote:'baby backs ≈4–5 hrs (2-2-1 method); spares ≈5–6 hrs (3-2-1 method)',
       wood:['Apple','Cherry','Ironbark'],
+      woodUS:['Apple','Cherry','Hickory'],
       rubNote:'Makes about 150g — enough for 2 racks of baby backs or spares. A sweeter Memphis-style rub that plays well with or without sauce.',
       rub:[
         {name:'Brown sugar', grams:40},
@@ -1858,6 +1872,9 @@
             <div class="card">
               <h3>Wood</h3>
               <ul class="chips">${item.wood.map(w => `<li>${w}</li>`).join('')}</ul>
+              ${item.woodUS ? `
+              <p class="wood-alt-label">USA alternatives</p>
+              <ul class="chips">${item.woodUS.map(w => `<li>${w}</li>`).join('')}</ul>` : ''}
             </div>
             <div class="card">
               <h3>Pitmaster notes</h3>
