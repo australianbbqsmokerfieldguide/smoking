@@ -1201,6 +1201,44 @@
       ]
     },
     {
+      id:'wings', tabName:'Chicken Wings', tabSub:'Chicken', icon:'chicken',
+      category:'Chicken · Wings', title:'Chicken Wings',
+      desc:'Smoked wings — chicken salt and lemon pepper instead of the usual American Buffalo or dry-rub route, finished hot and fast for crackling skin.',
+      weight:'≈1.2–1.5 kg (about 16–20 wings)',
+      smokerC:[121,135], midC:74, midLabel:'Skin tightening — check crisp', targetC:[74,79],
+      restNote:'5–10 min, uncovered so the skin stays crisp',
+      cookTimeNote:'≈60–75 min',
+      wood:['River red gum','Ironbark','Apple'],
+      woodUS:['Oak','Hickory','Apple'],
+      rubNote:'Makes about 90g — enough for 1.2–1.5kg of wings. Built on chicken salt and lemon pepper, the two seasonings you\u2019ll find on every servo and chippy shaker in Australia.',
+      rub:[
+        {name:'Chicken salt', grams:30},
+        {name:'Lemon pepper seasoning', grams:25},
+        {name:'Garlic powder', grams:12},
+        {name:'Onion powder', grams:10},
+        {name:'Smoked paprika', grams:8},
+        {name:'Cracked black pepper', grams:5}
+      ],
+      method:(P, PR) => [
+        'Pat the wings fully dry with paper towel — this is the difference between crisp skin and rubbery skin off the smoker.',
+        'Toss with a little oil, then coat generously in the chicken salt and lemon pepper rub, working it under the skin where you can.',
+        `Smoke at ${PR(121,135)} until the internal temp hits ${PR(74,79)} and the skin has visibly tightened, about 60–75 minutes.`,
+        'For extra crackle, finish the last 5–10 minutes directly over hotter coals or under a grill/broiler, watching closely so they don\u2019t catch.',
+        'Rest uncovered for 5–10 minutes — covering traps steam and softens the skin you just worked for.',
+        'Serve with extra lemon wedges and a shake of chicken salt at the table.'
+      ],
+      tips:[
+        'Chicken salt and lemon pepper are both salty on their own — taste the blend before adding extra salt to anything else in the meal.',
+        'Wings are almost all skin-to-meat ratio, so a hotter smoker (121–135°C) than a low-and-slow cook is what actually renders the fat and crisps the skin.',
+        'A wire rack on a tray under the wings lets air circulate on all sides and stops them steaming in their own fat.'
+      ],
+      strip:[
+        {label:'Chamber', c:'121–135'},
+        {label:'Skin check', c:'74'},
+        {label:'Doneness', c:'74–79'}
+      ]
+    },
+    {
       id:'beans', tabName:'Beans', tabSub:'Sides', icon:'sides',
       isSideDish:true,
       category:'Extras · Smoker', title:'Texas-Style Smoked Beans',
