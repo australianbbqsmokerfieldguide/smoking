@@ -1239,6 +1239,45 @@
       ]
     },
     {
+      id:'lambleg', tabName:'Lamb Leg', tabSub:'Lamb', icon:'lamb',
+      category:'Lamb · Whole Leg', title:'Lamb Leg',
+      desc:'Bone-in leg of lamb, smoked low and slow with the classic Sunday-roast flavours of rosemary, garlic and lemon rather than a heavy American-style rub.',
+      weight:'2–2.5 kg bone-in',
+      smokerC:[121,135], midC:63, midLabel:'Rosé — check for medium', targetC:[63,68],
+      restNote:'20–30 min, loosely tented',
+      holdC:[54,60],
+      cookTimeNote:'≈3.5–4.5 hrs for a 2–2.5kg leg',
+      wood:['River red gum','Mallee','Ironbark'],
+      woodUS:['Oak','Pecan','Hickory'],
+      rubNote:'A wet rub rather than a dry one — makes enough paste for one 2–2.5kg leg. Rosemary, garlic and lemon zest are the backbone of an Australian roast lamb, worked straight into slits cut across the leg.',
+      rub:[
+        {name:'Garlic cloves, crushed', amt:'6 cloves'},
+        {name:'Rosemary, finely chopped', amt:'3 tbsp'},
+        {name:'Lemon zest', amt:'2 lemons'},
+        {name:'Olive oil', amt:'60 ml'},
+        {name:'Dijon mustard', amt:'1 tbsp'},
+        {name:'Coarse salt', amt:'2 tsp'},
+        {name:'Cracked black pepper', amt:'1 tsp'}
+      ],
+      method:(P, PR) => [
+        'Cut small slits all over the leg and push slivers of garlic and rosemary into each one, so the flavour sits inside the meat, not just on the surface.',
+        'Mix the remaining garlic, rosemary, lemon zest, olive oil, mustard, salt and pepper into a paste and rub it over the whole leg.',
+        `Smoke at ${PR(121,135)} until the internal temp reaches ${PR(63,68)} for a rosé-pink medium finish, about 3.5–4.5 hours.`,
+        'Rest loosely tented in foil for 20–30 minutes — the internal temp will climb a few more degrees as it rests.',
+        'Carve across the grain in thin slices, finishing with a squeeze of fresh lemon juice at the table.'
+      ],
+      tips:[
+        'Lamb leg is naturally lean compared to brisket or pork shoulder, so pulling it at medium (63–68°C) keeps it tender — don\u2019t chase brisket-style doneness here.',
+        'Studding the meat with garlic and rosemary (rather than just rubbing the surface) is what gives a smoked leg that classic Sunday-roast flavour all the way through.',
+        'A splash of lemon juice at the end cuts through the richness and is very much the Australian way to finish a lamb roast.'
+      ],
+      strip:[
+        {label:'Chamber', c:'121–135'},
+        {label:'Rosé check', c:'63'},
+        {label:'Doneness', c:'63–68'}
+      ]
+    },
+    {
       id:'beans', tabName:'Beans', tabSub:'Sides', icon:'sides',
       isSideDish:true,
       category:'Extras · Smoker', title:'Texas-Style Smoked Beans',
