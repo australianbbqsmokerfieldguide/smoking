@@ -715,6 +715,83 @@
     .pros-cons{ grid-template-columns:1fr; }
   }
 
+  .notes-card{
+    max-width:900px;
+    margin:32px auto 0;
+    padding:24px 26px;
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    background:linear-gradient(145deg,var(--card),var(--panel));
+  }
+  .notes-card h3{
+    margin:0 0 6px;
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.04em;
+    font-size:18px;
+    color:var(--bone);
+  }
+  .notes-hint{
+    margin:0 0 14px;
+    font-size:13px;
+    line-height:1.5;
+    color:var(--kraft-dim);
+  }
+  .notes-textarea{
+    width:100%;
+    min-height:96px;
+    padding:12px 14px;
+    border:1px solid var(--line);
+    border-radius:var(--radius-s);
+    background:var(--char-2);
+    color:var(--bone);
+    font-family:'Zilla Slab',serif;
+    font-size:15px;
+    line-height:1.5;
+    resize:vertical;
+    transition:border-color .15s ease;
+  }
+  .notes-textarea:focus{
+    outline:none;
+    border-color:var(--ember-bright);
+  }
+  .notes-textarea::placeholder{ color:var(--kraft-dim); }
+  .notes-actions{
+    display:flex;
+    align-items:center;
+    justify-content:flex-end;
+    gap:14px;
+    margin-top:12px;
+  }
+  .notes-status{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:.08em;
+    color:var(--kraft-dim);
+    min-width:60px;
+    text-align:right;
+  }
+  .notes-save-btn{
+    font-family:'Oswald',sans-serif;
+    text-transform:uppercase;
+    letter-spacing:.06em;
+    font-size:13px;
+    font-weight:700;
+    padding:10px 20px;
+    min-height:40px;
+    border-radius:999px;
+    border:1.5px solid var(--ember-bright);
+    background:transparent;
+    color:var(--ember-bright);
+    cursor:pointer;
+    transition:background .15s ease,color .15s ease,transform .12s ease;
+  }
+  @media(hover:hover) and (pointer:fine){
+    .notes-save-btn:hover{ background:var(--ember-bright); color:var(--char); }
+  }
+  .notes-save-btn:active{ transform:scale(.96); }
+
   /* ---------- Responsive ---------- */
   @media (max-width: 720px){
     .hero{ grid-template-columns:1fr; text-align:center; }
@@ -1484,6 +1561,71 @@
     });
   }
 
+  // ---- personal notes (private to this user, saved per cut/dish) ----
+  function notesBlockHTML(itemId){
+    return `
+      <div class="notes-card" data-notes-id="${itemId}">
+        <h3>Your Notes</h3>
+        <p class="notes-hint">Private to you — jot down tweaks, timings, or how this cook went. Only visible on this device/account.</p>
+        <textarea class="notes-textarea" placeholder="e.g. Pulled at 92°C, rested 45 min, could've used more rub next time…" rows="4"></textarea>
+        <div class="notes-actions">
+          <span class="notes-status" aria-live="polite"></span>
+          <button type="button" class="notes-save-btn">Save Note</button>
+        </div>
+      </div>
+    `;
+  }
+
+  function initNotesBlock(section, itemId){
+    const card = section.querySelector(`.notes-card[data-notes-id="${itemId}"]`);
+    if (!card) return;
+    const textarea = card.querySelector('.notes-textarea');
+    const saveBtn = card.querySelector('.notes-save-btn');
+    const status = card.querySelector('.notes-status');
+    const storageKey = `cook-notes:${itemId}`;
+    let saveTimeout = null;
+
+    // Load existing note (private/personal storage — shared=false)
+    if (window.storage && typeof window.storage.get === 'function') {
+      window.storage.get(storageKey, false)
+        .then(result => {
+          if (result && typeof result.value === 'string') {
+            textarea.value = result.value;
+          }
+        })
+        .catch(() => { /* no note saved yet */ });
+    }
+
+    async function saveNote(){
+      if (!window.storage || typeof window.storage.set !== 'function') {
+        status.textContent = 'Notes unavailable';
+        return;
+      }
+      status.textContent = 'Saving…';
+      try {
+        const value = textarea.value;
+        if (value.trim() === '') {
+          if (typeof window.storage.delete === 'function') {
+            await window.storage.delete(storageKey, false).catch(() => {});
+          }
+          status.textContent = 'Cleared';
+        } else {
+          const result = await window.storage.set(storageKey, value, false);
+          status.textContent = result ? 'Saved' : 'Could not save';
+        }
+      } catch (err) {
+        status.textContent = 'Could not save';
+      }
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(() => { status.textContent = ''; }, 2500);
+    }
+
+    saveBtn.addEventListener('click', saveNote);
+    textarea.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') saveNote();
+    });
+  }
+
   function renderAll(){
     panels.innerHTML = '';
 
@@ -1543,8 +1685,11 @@
           </div>
 
           <p class="review-source">${item.sourceNote || ''}</p>
+
+          ${notesBlockHTML(item.id)}
         `;
         panels.appendChild(section);
+        initNotesBlock(section, item.id);
         return;
       }
 
@@ -1558,8 +1703,11 @@
           <div class="card wood-guide-card">
             <img src="wood-guide.jpg" alt="Smoking wood flavour guide — a chart pairing wood types (alder, apple, apricot, coffee, cherry, hickory, jam, mallee, maple, mesquite, nectarine, oak, olive, peach, pear, pecan, plum, tea, walnut) with beef, lamb, pork, chicken, seafood, cheese, and veggies." loading="lazy">
           </div>
+
+          ${notesBlockHTML(item.id)}
         `;
         panels.appendChild(section);
+        initNotesBlock(section, item.id);
         return;
       }
 
@@ -1596,8 +1744,11 @@
               </div>
             </div>
           </div>` : ''}
+
+          ${notesBlockHTML(item.id)}
         `;
         panels.appendChild(section);
+        initNotesBlock(section, item.id);
         return;
       }
 
@@ -1701,8 +1852,11 @@
             </div>`;
           }).join('')}
         </div>
+
+        ${notesBlockHTML(item.id)}
       `;
       panels.appendChild(section);
+      initNotesBlock(section, item.id);
     });
   }
 
