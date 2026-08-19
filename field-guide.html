@@ -562,6 +562,9 @@
   .product-gallery.single img{
     aspect-ratio:auto;
     height:auto;
+    width:clamp(160px, 40vw, 320px);
+    margin:0 auto;
+    display:block;
   }
   @media (hover:hover) and (pointer:fine){
     .product-gallery img:hover{ opacity:0.85; }
