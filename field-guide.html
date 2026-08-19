@@ -716,8 +716,7 @@
   }
 
   .notes-card{
-    max-width:900px;
-    margin:32px auto 0;
+    margin:32px 0 0;
     padding:24px 26px;
     border:1px solid var(--line);
     border-radius:var(--radius-m);
@@ -1562,11 +1561,12 @@
   }
 
   // ---- personal notes (private to this user, saved per cut/dish) ----
-  function notesBlockHTML(itemId){
+  function notesBlockHTML(itemId, maxWidth){
+    const style = maxWidth ? ` style="max-width:${maxWidth};margin:32px auto 0;"` : '';
     return `
-      <div class="notes-card" data-notes-id="${itemId}">
+      <div class="notes-card" data-notes-id="${itemId}"${style}>
         <h3>Your Notes</h3>
-        <p class="notes-hint">Private to you — jot down tweaks, timings, or how this cook went. Only visible on this device/account.</p>
+        <p class="notes-hint">Private to you — jot down tweaks, timings, or how this cook went. Saved in this browser only.</p>
         <textarea class="notes-textarea" placeholder="e.g. Pulled at 92°C, rested 45 min, could've used more rub next time…" rows="4"></textarea>
         <div class="notes-actions">
           <span class="notes-status" aria-live="polite"></span>
@@ -1585,8 +1585,19 @@
     const storageKey = `cook-notes:${itemId}`;
     let saveTimeout = null;
 
-    // Load existing note (private/personal storage — shared=false)
-    if (window.storage && typeof window.storage.get === 'function') {
+    // Prefer the artifact storage API (window.storage) when available — falls
+    // back to localStorage so notes still work as a plain, self-hosted page.
+    const hasArtifactStorage = !!(window.storage && typeof window.storage.get === 'function');
+    let localStorageOK = false;
+    try {
+      const testKey = '__notes_test__';
+      window.localStorage.setItem(testKey, '1');
+      window.localStorage.removeItem(testKey);
+      localStorageOK = true;
+    } catch (err) { localStorageOK = false; }
+
+    // Load existing note (private/personal storage)
+    if (hasArtifactStorage) {
       window.storage.get(storageKey, false)
         .then(result => {
           if (result && typeof result.value === 'string') {
@@ -1594,24 +1605,39 @@
           }
         })
         .catch(() => { /* no note saved yet */ });
+    } else if (localStorageOK) {
+      const saved = window.localStorage.getItem(storageKey);
+      if (typeof saved === 'string') textarea.value = saved;
     }
 
     async function saveNote(){
-      if (!window.storage || typeof window.storage.set !== 'function') {
+      if (!hasArtifactStorage && !localStorageOK) {
         status.textContent = 'Notes unavailable';
+        clearTimeout(saveTimeout);
+        saveTimeout = setTimeout(() => { status.textContent = ''; }, 2500);
         return;
       }
       status.textContent = 'Saving…';
       try {
         const value = textarea.value;
-        if (value.trim() === '') {
-          if (typeof window.storage.delete === 'function') {
-            await window.storage.delete(storageKey, false).catch(() => {});
+        if (hasArtifactStorage) {
+          if (value.trim() === '') {
+            if (typeof window.storage.delete === 'function') {
+              await window.storage.delete(storageKey, false).catch(() => {});
+            }
+            status.textContent = 'Cleared';
+          } else {
+            const result = await window.storage.set(storageKey, value, false);
+            status.textContent = result ? 'Saved' : 'Could not save';
           }
-          status.textContent = 'Cleared';
         } else {
-          const result = await window.storage.set(storageKey, value, false);
-          status.textContent = result ? 'Saved' : 'Could not save';
+          if (value.trim() === '') {
+            window.localStorage.removeItem(storageKey);
+            status.textContent = 'Cleared';
+          } else {
+            window.localStorage.setItem(storageKey, value);
+            status.textContent = 'Saved';
+          }
         }
       } catch (err) {
         status.textContent = 'Could not save';
@@ -1686,7 +1712,7 @@
 
           <p class="review-source">${item.sourceNote || ''}</p>
 
-          ${notesBlockHTML(item.id)}
+          ${notesBlockHTML(item.id, '760px')}
         `;
         panels.appendChild(section);
         initNotesBlock(section, item.id);
@@ -1745,7 +1771,7 @@
             </div>
           </div>` : ''}
 
-          ${notesBlockHTML(item.id)}
+          ${notesBlockHTML(item.id, '900px')}
         `;
         panels.appendChild(section);
         initNotesBlock(section, item.id);
