@@ -29,8 +29,8 @@
     --kraft-dim:   #5f6b76;
     --bone:        #eef1f3;
     --smoke:       #9aa5ad;
-    --ember:       #9c2b3c;
-    --ember-bright:#d94459;
+    --ember:       #592c23;
+    --ember-bright:#D94459;
     --amber:       #3d6a86;
     --grey-zone:   #3c4249;
     --dark-zone:   #23262b;
@@ -50,7 +50,7 @@
   html,body{
     margin:0; padding:0;
     background:
-      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(217,68,89,0.08), transparent 60%),
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(133,66,52,0.08), transparent 60%),
       radial-gradient(ellipse 700px 500px at 100% 0%, rgba(61,106,134,0.06), transparent 55%),
       var(--char);
     color:var(--bone);
@@ -88,12 +88,32 @@
     margin:0 10px;
   }
 
+  /* ---------- Logo + smoker row ---------- */
+  .masthead-art{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+    margin:0 auto 10px;
+  }
+  .logo-mark{
+    width:92px;
+    height:92px;
+    flex:none;
+    display:block;
+  }
+
   /* ---------- Smoker icon ---------- */
   .smoker-icon{
     width:180px;
     height:auto;
-    margin:0 auto 10px;
+    flex:none;
     display:block;
+  }
+  @media (max-width:480px){
+    .masthead-art{ gap:12px; }
+    .logo-mark{ width:64px; height:64px; }
+    .smoker-icon{ width:140px; }
   }
   .masthead h1{
     font-size:clamp(40px, 7vw, 76px);
@@ -300,7 +320,7 @@
     width:3px; height:80px;
     background:linear-gradient(180deg, var(--ember-bright), var(--ember));
     margin-left:-1.5px; margin-top:-80px;
-    box-shadow:0 0 6px rgba(217,68,89,0.6);
+    box-shadow:0 0 6px rgba(133,66,52,0.6);
   }
   .needle-chamber{
     width:2px; height:58px;
@@ -912,7 +932,10 @@
 
 
 <header class="masthead">
-  <img class="smoker-icon" src="smoker-web.webp" alt="Barrel smoker with an open firebox, glowing coals and rising smoke">
+  <div class="masthead-art">
+    <img class="logo-mark" src="logo.png" alt="Fire. Smoke. Time. logo" width="92" height="92">
+    <img class="smoker-icon" src="smoker-web.webp" alt="Barrel smoker with an open firebox, glowing coals and rising smoke">
+  </div>
   <span class="eyebrow">A Field Guide To</span>
   <h1>Fire. Smoke. <span>Time.</span></h1>
   <div class="tagline">Good Fire. Great BBQ.</div>
