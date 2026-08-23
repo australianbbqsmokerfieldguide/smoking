@@ -550,6 +550,15 @@
   }
 
   /* ---------- My Kit panel ---------- */
+  .kit-hero-img{
+    display:block;
+    width:100%;
+    max-width:410px;
+    height:auto;
+    margin:28px auto 0;
+    border-radius:var(--radius-m);
+    border:1px solid var(--line);
+  }
   .kit-list{
     max-width:820px;
     margin:28px auto 0;
@@ -1675,9 +1684,9 @@
       isProductReview:true,
       category:'Gear Review · Briquettes',
       title:'Heat Beads BBQ Briquettes',
-      buyUrl:'https://www.bunnings.com.au/search/products?q=heat%20beads%20bbq%20briquettes',
-      buyLabel:'View & Buy at Bunnings',
-      sourceNote:'Specs via Bunnings and Heat Beads. Review based on owner feedback aggregated from Bunnings and ProductReview.com.au.',
+      buyUrl:'https://link.amazon/B08JDTrKY',
+      buyLabel:'View & Buy on Amazon',
+      sourceNote:'As an Amazon Associate we earn from qualifying purchases. Prices and availability are accurate as of the date shown and are subject to change.',
       images:[
         'heat-beads-briquettes.jpg'
       ],
@@ -1751,8 +1760,8 @@
         {
           name:'Heat Beads BBQ Briquettes',
           blurb:'What I fuel the smoker with for anything long and slow. It burns steady and predictable for hours, which takes one less thing to worry about on a big cook.',
-          url:'https://www.bunnings.com.au/search/products?q=heat%20beads%20bbq%20briquettes',
-          urlLabel:'View at Bunnings'
+          url:'https://link.amazon/B08JDTrKY',
+          urlLabel:'View on Amazon'
         }
       ]
     }
@@ -2007,6 +2016,7 @@
             <h2>${item.title}</h2>
             <p>${item.desc}</p>
           </div>
+          <img class="kit-hero-img" src="my-setup.jpg" alt="The author's smoker setup, showing a bullet smoker, brisket, charcoal, gloves, tongs, foil, and a wireless thermometer laid out on an outdoor table" loading="lazy">
           <div class="kit-list">
             ${item.kitItems.map(k => `
               <div class="card kit-card">
