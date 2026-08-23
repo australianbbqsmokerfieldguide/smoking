@@ -549,6 +549,30 @@
     border-radius:var(--radius-m);
   }
 
+  /* ---------- My Kit panel ---------- */
+  .kit-list{
+    max-width:820px;
+    margin:28px auto 0;
+    display:grid;
+    gap:16px;
+  }
+  .kit-card p{
+    margin:0;
+    color:var(--smoke);
+    line-height:1.6;
+    font-size:15px;
+  }
+  .kit-buy-link{
+    display:inline-block;
+    margin:-8px 0 12px;
+    font-size:12px;
+    font-weight:600;
+    color:var(--ember-bright);
+    text-decoration:none;
+    border-bottom:1px solid currentColor;
+  }
+  .kit-buy-link:hover{ opacity:0.8; }
+
   /* ---------- Product review panel ---------- */
   .product-hero{
     display:grid;
@@ -1680,6 +1704,57 @@
         'Slower to light than lump charcoal',
         'Lower peak temperature than lump — less ideal for hot searing'
       ]
+    },
+    {
+      id:'my-kit', tabName:'My Setup', tabSub:'My Setup', icon:'kit',
+      isKitPage:true,
+      category:'About · My Setup',
+      title:'My Setup',
+      desc:'None of this is the flashest gear on the shelf. I didn\u2019t buy the top-of-the-range smoker or the fanciest thermometer — I bought what I could justify, and it\u2019s turned out great food every time. If you\u2019re starting out and wondering whether you need to spend big, this is proof you don\u2019t.',
+      kitItems:[
+        {
+          name:'Matador 45cm Catalyst Pro Bullet Smoker',
+          blurb:'This is the one that does the actual smoking. It\u2019s a solid, no-nonsense bullet smoker that holds its heat well once it\u2019s dialled in, and it\u2019s been reliable session after session without any fuss.',
+          url:'https://www.bunnings.com.au/matador-45cm-catalyst-pro-bullet-smoker_p0178178',
+          urlLabel:'View at Bunnings'
+        },
+        {
+          name:'Kisfam Wireless Meat Thermometer, 2 Probes',
+          blurb:'Genuinely changed how I cook. Being able to check the meat and chamber temp from inside the house instead of lifting the lid every twenty minutes has made long cooks far less stressful.',
+          url:'https://link.amazon/B0aBb2mOx'
+        },
+        {
+          name:'ThermoMaven F1 Turbo Instant Read Meat Thermometer',
+          blurb:'My go-to for a quick final check before pulling anything off. Fast, simple, does exactly what it needs to and nothing more.',
+          url:'https://link.amazon/B0gDKS57S'
+        },
+        {
+          name:'Grill Society Disposable BBQ Gloves, 50 Pack',
+          blurb:'Not glamorous, but essential the moment you\u2019re pulling a hot pork shoulder apart by hand. Cheap, effective, and I always keep a box on hand.',
+          url:'https://link.amazon/B0aetLVbT'
+        },
+        {
+          name:'Wiltshire Bar-B Tong, 35cm',
+          blurb:'A decent, sturdy pair of tongs makes more difference than people expect. The long handle keeps your hand well clear of the heat, and it\u2019s the tool I reach for more than anything else in the kit.',
+          url:'https://link.amazon/B07Sj8yWN'
+        },
+        {
+          name:'Glad Aluminium Foil, 50m',
+          blurb:'The unsung hero of any smoker setup — wrapping a brisket through the stall, lining a drip tray, or just keeping food warm on the rest. Having a big roll on hand means I never run short mid-cook.',
+          url:'https://link.amazon/B03Al47Qx'
+        },
+        {
+          name:'Wiltshire Bar-B Medium Foil Trays, 3-Piece Pack',
+          blurb:'Handy for catching drippings, holding a rub-covered roast before it goes on, or just serving straight off the smoker with less cleanup after. Simple and reusable enough to get real mileage out of.',
+          url:'https://link.amazon/B0aUromEG'
+        },
+        {
+          name:'Heat Beads BBQ Briquettes',
+          blurb:'What I fuel the smoker with for anything long and slow. It burns steady and predictable for hours, which takes one less thing to worry about on a big cook.',
+          url:'https://www.bunnings.com.au/search/products?q=heat%20beads%20bbq%20briquettes',
+          urlLabel:'View at Bunnings'
+        }
+      ]
     }
   ];
 
@@ -1922,6 +1997,27 @@
         `;
         panels.appendChild(section);
         initNotesBlock(section, item.id);
+        return;
+      }
+
+      if (item.isKitPage) {
+        section.innerHTML = `
+          <div class="wood-intro">
+            <span class="eyebrow">${item.category}</span>
+            <h2>${item.title}</h2>
+            <p>${item.desc}</p>
+          </div>
+          <div class="kit-list">
+            ${item.kitItems.map(k => `
+              <div class="card kit-card">
+                <h3>${k.name}</h3>
+                ${k.url ? `<a href="${k.url}" target="_blank" rel="noopener" class="kit-buy-link">${k.urlLabel || 'View on Amazon'}</a>` : ''}
+                <p>${k.blurb}</p>
+              </div>
+            `).join('')}
+          </div>
+        `;
+        panels.appendChild(section);
         return;
       }
 
