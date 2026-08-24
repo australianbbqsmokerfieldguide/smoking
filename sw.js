@@ -1,4 +1,4 @@
-const CACHE_NAME = 'low-and-slow-v14';
+const CACHE_NAME = 'low-and-slow-v17';
 const APP_SHELL = [
   './',
   './index.html',

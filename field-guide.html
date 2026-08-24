@@ -19,6 +19,17 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Zilla+Slab:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  // Apply saved theme preference before first paint to avoid a flash of the wrong theme.
+  (function(){
+    try{
+      var saved = localStorage.getItem('lowAndSlowTheme');
+      if(saved === 'light'){
+        document.documentElement.setAttribute('data-theme','light');
+      }
+    }catch(err){ /* localStorage unavailable — default (dark) theme applies */ }
+  })();
+</script>
 <style>
   :root{
     --char:        #121316;
@@ -38,6 +49,23 @@
     --radius-s: 6px;
     --radius-m: 12px;
     --radius-l: 20px;
+  }
+
+  html[data-theme="light"]{
+    --char:        #f7f4ef;
+    --char-2:      #ffffff;
+    --panel:       #ffffff;
+    --card:        #ffffff;
+    --kraft:       #5c6570;
+    --kraft-dim:   #8a93a0;
+    --bone:        #211f1c;
+    --smoke:       #5a6067;
+    --ember:       #f2c9c2;
+    --ember-bright:#c62f45;
+    --amber:       #3d6a86;
+    --grey-zone:   #e4e0d8;
+    --dark-zone:   #ece8e0;
+    --line:        #ddd8cf;
   }
 
   *{ box-sizing:border-box; }
@@ -931,6 +959,51 @@
   }
   .install-btn:active{ transform:scale(0.96); }
 
+  /* ---------- Theme switch (top-right, mirrors index.html nav position) ---------- */
+  .theme-switch{
+    position:absolute; top:max(16px, env(safe-area-inset-top)); right:18px;
+    display:inline-flex; align-items:center; gap:8px;
+    z-index:4;
+  }
+  .theme-switch-label{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px; font-weight:700; letter-spacing:.03em;
+    color:var(--smoke);
+    user-select:none;
+  }
+  .theme-switch-track{
+    position:relative;
+    width:46px; height:26px;
+    border:1px solid var(--line);
+    border-radius:999px;
+    background:var(--panel);
+    backdrop-filter:blur(8px);
+    cursor:pointer;
+    padding:0;
+    transition:background .15s ease, border-color .15s ease;
+    flex-shrink:0;
+  }
+  .theme-switch-thumb{
+    position:absolute; top:2px; left:2px;
+    width:20px; height:20px;
+    border-radius:50%;
+    background:var(--ember-bright);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--char);
+    transition:transform .18s ease;
+  }
+  .theme-switch-thumb svg{ width:12px; height:12px; }
+  .theme-switch-thumb .icon-sun{ display:none; }
+  .theme-switch-thumb .icon-moon{ display:inline-flex; }
+  html[data-theme="light"] .theme-switch-thumb{ transform:translateX(20px); }
+  html[data-theme="light"] .theme-switch-thumb .icon-sun{ display:inline-flex; }
+  html[data-theme="light"] .theme-switch-thumb .icon-moon{ display:none; }
+  .theme-switch-track:active .theme-switch-thumb{ transform:scale(.92); }
+  html[data-theme="light"] .theme-switch-track:active .theme-switch-thumb{ transform:translateX(20px) scale(.92); }
+  @media (max-width:560px){
+    .theme-switch{ top:max(10px, env(safe-area-inset-top)); right:10px; }
+  }
+
   .install-tip{
     display:none;
     position:absolute;
@@ -965,10 +1038,10 @@
     position:absolute; top:max(16px, env(safe-area-inset-top)); left:18px;
     display:inline-flex; align-items:center; gap:8px;
     padding:9px 13px; border:1px solid var(--line); border-radius:999px;
-    background:rgba(30,33,38,.88); color:var(--smoke); text-decoration:none;
+    background:var(--panel); color:var(--smoke); text-decoration:none;
     font-family:'JetBrains Mono', monospace; font-size:11px; font-weight:700;
     letter-spacing:.03em; backdrop-filter:blur(8px); z-index:4;
-    transition:color .15s ease, border-color .15s ease, transform .15s ease;
+    transition:color .15s ease, border-color .15s ease, background .15s ease, transform .15s ease;
   }
   .site-home-link:hover{ color:var(--bone); border-color:var(--kraft-dim); }
   .site-home-link:active{ transform:scale(.96); }
@@ -986,6 +1059,15 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
   Home
 </a>
+<div class="theme-switch">
+  <span class="theme-switch-label" id="themeToggleLabel">Dark</span>
+  <button type="button" class="theme-switch-track" id="themeToggleBtn" role="switch" aria-checked="false" aria-label="Switch between dark and light theme">
+    <span class="theme-switch-thumb">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </span>
+  </button>
+</div>
 
 
 <header class="masthead">
@@ -1080,6 +1162,38 @@
   // ---------- unit preference (persisted) ----------
   const UNIT_KEY = 'lowAndSlowUnit';
   let unit = localStorage.getItem(UNIT_KEY) === 'F' ? 'F' : 'C';
+
+  // ---------- theme preference (persisted) ----------
+  const THEME_KEY = 'lowAndSlowTheme';
+  const themeToggleBtn = document.getElementById('themeToggleBtn');
+  const themeToggleLabel = document.getElementById('themeToggleLabel');
+  const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+  const DARK_THEME_COLOR = '#121316';
+  const LIGHT_THEME_COLOR = '#f7f4ef';
+
+  function applyTheme(theme){
+    if(theme === 'light'){
+      document.documentElement.setAttribute('data-theme','light');
+      if(themeToggleLabel) themeToggleLabel.textContent = 'Light';
+      if(themeToggleBtn) themeToggleBtn.setAttribute('aria-checked','true');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      if(themeToggleLabel) themeToggleLabel.textContent = 'Dark';
+      if(themeToggleBtn) themeToggleBtn.setAttribute('aria-checked','false');
+    }
+    if(themeColorMeta) themeColorMeta.setAttribute('content', theme === 'light' ? LIGHT_THEME_COLOR : DARK_THEME_COLOR);
+  }
+
+  let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  applyTheme(currentTheme);
+
+  if(themeToggleBtn){
+    themeToggleBtn.addEventListener('click', () => {
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      applyTheme(currentTheme);
+      try{ localStorage.setItem(THEME_KEY, currentTheme); }catch(err){ /* ignore */ }
+    });
+  }
 
   const primary   = c      => unit === 'C' ? fmtC(c)        : fmtF(c);
   const secondary = c      => unit === 'C' ? fmtF(c)        : fmtC(c);
