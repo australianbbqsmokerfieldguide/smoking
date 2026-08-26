@@ -447,26 +447,6 @@
 
   .rub-card{ margin-top:28px; }
   .rub-note{ color:var(--smoke); font-size:14px; line-height:1.5; margin:0 0 18px; max-width:70ch; }
-  .rub-product{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    margin:18px 0 0;
-    padding:12px;
-    background:rgba(255,255,255,0.03);
-    border-radius:var(--radius-m);
-  }
-  .rub-product-img{
-    width:64px;
-    height:auto;
-    flex-shrink:0;
-  }
-  .rub-product-name{
-    font-weight:600;
-    color:var(--bone);
-    font-size:14px;
-    margin-bottom:4px;
-  }
   .rub-list{
     list-style:none; margin:0; padding:0;
     display:grid;
@@ -568,30 +548,6 @@
     height:auto;
     border-radius:var(--radius-m);
   }
-
-  /* ---------- My Kit panel ---------- */
-  .kit-list{
-    max-width:820px;
-    margin:28px auto 0;
-    display:grid;
-    gap:16px;
-  }
-  .kit-card p{
-    margin:0;
-    color:var(--smoke);
-    line-height:1.6;
-    font-size:15px;
-  }
-  .kit-buy-link{
-    display:inline-block;
-    margin:-8px 0 12px;
-    font-size:12px;
-    font-weight:600;
-    color:var(--ember-bright);
-    text-decoration:none;
-    border-bottom:1px solid currentColor;
-  }
-  .kit-buy-link:hover{ opacity:0.8; }
 
   /* ---------- Product review panel ---------- */
   .product-hero{
@@ -1090,16 +1046,12 @@
       desc:'Point and flat, untrimmed, cut from the lower chest. The benchmark low-and-slow cook — big, forgiving, and unforgettable when it lands right.',
       weight:'5–6.5 kg untrimmed',
       smokerC:[107,121], midC:74, midLabel:'Stall — wrap here', targetC:[96,99],
-      restNote:'60–240 min, wrapped, in an esky',
+      restNote:'60–240 min, wrapped, in a cooler',
       holdC:[63,74],
       cookTimeNote:'≈75–105 min per kg — about 12–18 hrs for a full packer',
       wood:['River red gum','Ironbark','Mallee'],
       woodUS:['Post oak','Hickory','Pecan'],
       rubNote:'Makes about 140g — enough for one 5–6.5kg packer. Classic Texas "Dalmatian" rub: coarse and simple, so the beef and smoke do the talking.',
-      rubImage:'./lanes-brisket-rub.png',
-      rubImageAlt:'Lane\u2019s Brisket + Steak + Burgers Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Brisket Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B0bRrhBRX',
       rub:[
         {name:'Coarse black pepper', grams:60},
         {name:'Coarse kosher salt', grams:60},
@@ -1110,10 +1062,7 @@
         `Smoke fat-side up at ${PR(107,121)} until the bark is set and the internal temp reaches about ${P(74)} — the stall.`,
         'Wrap tightly in butcher paper (or foil) to push through the stall without drying out the bark.',
         `Keep going to ${PR(96,99)}, checking for probe-tender resistance — it should slide in like warm butter, especially in the flat.`,
-        'Let it sit unwrapped for 10–15 minutes off the heat to vent excess steam so the bark doesn\u2019t go soft.',
-        'Wrap tightly in butcher paper or foil to lock in heat and moisture.',
-        'Place in a dry esky with a towel above and below — no ice — to hold the temperature safely.',
-        'Rest for at least an hour, up to 3–4 hours, before slicing against the grain.'
+        'Rest wrapped in a cooler for at least an hour before slicing against the grain.'
       ],
       tips:[
         'Buy a well-marbled packer — marbling matters more than sheer size.',
@@ -1138,10 +1087,6 @@
       wood:['River red gum','Ironbark','Mallee'],
       woodUS:['Oak','Hickory','Mesquite'],
       rubNote:'Makes about 130g — enough for one 1.5–2.5kg chuck roast. Bolder than a brisket rub; chuck can carry the extra sweetness and spice.',
-      rubImage:'./lanes-brisket-rub.png',
-      rubImageAlt:'Lane\u2019s Brisket + Steak + Burgers Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Brisket Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B0bRrhBRX',
       rub:[
         {name:'Coarse kosher salt', grams:25},
         {name:'Coarse black pepper', grams:25},
@@ -1180,10 +1125,6 @@
       wood:['River red gum','Ironbark','Mallee'],
       woodUS:['Post oak','Hickory','Mesquite'],
       rubNote:'Makes about 100g — enough for one 3-bone plate rack. Same coarse salt-and-pepper logic as brisket; the meat is thick enough to take it heavy.',
-      rubImage:'./lanes-brisket-rub.png',
-      rubImageAlt:'Lane\u2019s Brisket + Steak + Burgers Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Brisket Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B0bRrhBRX',
       rub:[
         {name:'Coarse black pepper', grams:45},
         {name:'Coarse kosher salt', grams:40},
@@ -1219,10 +1160,6 @@
       wood:['Ironbark','Apple','Cherry'],
       woodUS:['Hickory','Apple','Cherry'],
       rubNote:'Makes about 460g — enough to coat one 4–4.5kg butt generously. Mix, then pat it on an hour ahead (or overnight, uncovered, in the fridge) so it sets into a paste before the smoker.',
-      rubImage:'./lanes-magic-dust-rub.png',
-      rubImageAlt:'Lane\u2019s Magic Dust Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Magic Dust Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B00Abwav7',
       rub:[
         {name:'Dark brown sugar, firmly packed', grams:165},
         {name:'White sugar', grams:150},
@@ -1263,10 +1200,6 @@
       wood:['Apple','Cherry','Ironbark'],
       woodUS:['Apple','Cherry','Hickory'],
       rubNote:'Makes about 150g — enough for 2 racks of baby backs or spares. A sweeter Memphis-style rub that plays well with or without sauce.',
-      rubImage:'./lanes-magic-dust-rub.png',
-      rubImageAlt:'Lane\u2019s Magic Dust Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Magic Dust Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B00Abwav7',
       rub:[
         {name:'Brown sugar', grams:40},
         {name:'Paprika', grams:30},
@@ -1306,10 +1239,6 @@
       wood:['River red gum','Ironbark','Apple'],
       woodUS:['Oak','Hickory','Apple'],
       rubNote:'Makes about 90g — enough for 1.2–1.5kg of wings. Built on chicken salt and lemon pepper, the two seasonings you\u2019ll find on every servo and chippy shaker in Australia.',
-      rubImage:'./lanes-sweet-lemon-pepper-rub.png',
-      rubImageAlt:'Lane\u2019s Sweet Lemon Pepper Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Sweet Lemon Pepper Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B00BMWt5h',
       rub:[
         {name:'Chicken salt', grams:30},
         {name:'Lemon pepper seasoning', grams:25},
@@ -1338,48 +1267,6 @@
       ]
     },
     {
-      id:'wholechicken', tabName:'Whole Chicken', tabSub:'Chicken', icon:'chicken',
-      category:'Chicken · Whole Bird', title:'Whole Chicken',
-      desc:'A whole chook, spatchcocked flat, with chicken salt, lemon and garlic worked under the skin so it cooks even and comes off with proper crackling skin.',
-      weight:'1.6–2 kg whole bird',
-      smokerC:[135,150], midC:65, midLabel:'Basting check — skin colouring', targetC:[74,77],
-      restNote:'10–15 min, loosely tented',
-      cookTimeNote:'≈75–90 min once spatchcocked',
-      wood:['River red gum','Ironbark','Apple'],
-      woodUS:['Oak','Hickory','Apple'],
-      rubNote:'Makes about 90g — the same rub used on the wings page. Built on chicken salt and lemon pepper, the two seasonings you\u2019ll find on every servo and chippy shaker in Australia.',
-      rubImage:'./lanes-sweet-lemon-pepper-rub.png',
-      rubImageAlt:'Lane\u2019s Sweet Lemon Pepper Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Sweet Lemon Pepper Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B00BMWt5h',
-      rub:[
-        {name:'Chicken salt', grams:30},
-        {name:'Lemon pepper seasoning', grams:25},
-        {name:'Garlic powder', grams:12},
-        {name:'Onion powder', grams:10},
-        {name:'Smoked paprika', grams:8},
-        {name:'Cracked black pepper', grams:5}
-      ],
-      method:(P, PR) => [
-        'Spatchcock the bird — cut out the backbone with kitchen shears and press flat — so it cooks evenly and the skin gets even exposure to heat.',
-        'Loosen the skin over the breast and thighs and work about two-thirds of the rub directly onto the flesh underneath, then rub the rest over the skin.',
-        `Smoke skin-side up at ${PR(135,150)} over indirect heat, checking around ${P(65)} for even colouring and basting with melted butter if the skin needs help.`,
-        `Keep going until the thickest part of the thigh reads ${PR(74,77)} — that\u2019s about 75–90 minutes for a spatchcocked bird this size.`,
-        'Rest loosely tented for 10–15 minutes before carving — long enough to settle the juices without the skin going soft.',
-        'Carve and serve with extra lemon wedges and a shake of chicken salt at the table.'
-      ],
-      tips:[
-        'Spatchcocking is the key move here — a whole trussed bird takes longer and cooks unevenly, with the breast drying out before the thighs catch up.',
-        'Chicken salt and lemon pepper are both salty on their own, so go easy on any extra salt elsewhere in the meal.',
-        'A drip tray under the bird catches the fat and juices — save them for basting or drizzling over the carved chicken.'
-      ],
-      strip:[
-        {label:'Chamber', c:'135–150'},
-        {label:'Basting check', c:'65'},
-        {label:'Doneness', c:'74–77'}
-      ]
-    },
-    {
       id:'lambleg', tabName:'Lamb Leg', tabSub:'Lamb', icon:'lamb',
       category:'Lamb · Whole Leg', title:'Lamb Leg',
       desc:'Bone-in leg of lamb, smoked low and slow with the classic Sunday-roast flavours of rosemary, garlic and lemon rather than a heavy American-style rub.',
@@ -1391,11 +1278,6 @@
       wood:['River red gum','Mallee','Ironbark'],
       woodUS:['Oak','Pecan','Hickory'],
       rubNote:'A wet rub rather than a dry one — makes enough paste for one 2–2.5kg leg. Rosemary, garlic and lemon zest are the backbone of an Australian roast lamb, worked straight into slits cut across the leg.',
-      rubTitle:'Wet Rub',
-      rubImage:'./lanes-sunday-roast-rub.png',
-      rubImageAlt:'Lane\u2019s Sunday Roast Rub/Seasoning jar',
-      rubProductName:'Lane\u2019s Sunday Roast Rub if you prefer ready made',
-      rubBuyUrl:'https://link.amazon/B0hQM18Cl',
       rub:[
         {name:'Garlic cloves, crushed', amt:'6 cloves'},
         {name:'Rosemary, finely chopped', amt:'3 tbsp'},
@@ -1798,57 +1680,6 @@
         'Slower to light than lump charcoal',
         'Lower peak temperature than lump — less ideal for hot searing'
       ]
-    },
-    {
-      id:'my-kit', tabName:'My Setup', tabSub:'My Setup', icon:'kit',
-      isKitPage:true,
-      category:'About · My Setup',
-      title:'My Setup',
-      desc:'None of this is the flashest gear on the shelf. I didn\u2019t buy the top-of-the-range smoker or the fanciest thermometer — I bought what I could justify, and it\u2019s turned out great food every time. If you\u2019re starting out and wondering whether you need to spend big, this is proof you don\u2019t.',
-      kitItems:[
-        {
-          name:'Matador 45cm Catalyst Pro Bullet Smoker',
-          blurb:'This is the one that does the actual smoking. It\u2019s a solid, no-nonsense bullet smoker that holds its heat well once it\u2019s dialled in, and it\u2019s been reliable session after session without any fuss.',
-          url:'https://www.bunnings.com.au/matador-45cm-catalyst-pro-bullet-smoker_p0178178',
-          urlLabel:'View at Bunnings'
-        },
-        {
-          name:'Kisfam Wireless Meat Thermometer, 2 Probes',
-          blurb:'Genuinely changed how I cook. Being able to check the meat and chamber temp from inside the house instead of lifting the lid every twenty minutes has made long cooks far less stressful.',
-          url:'https://link.amazon/B0aBb2mOx'
-        },
-        {
-          name:'ThermoMaven F1 Turbo Instant Read Meat Thermometer',
-          blurb:'My go-to for a quick final check before pulling anything off. Fast, simple, does exactly what it needs to and nothing more.',
-          url:'https://link.amazon/B0gDKS57S'
-        },
-        {
-          name:'Grill Society Disposable BBQ Gloves, 50 Pack',
-          blurb:'Not glamorous, but essential the moment you\u2019re pulling a hot pork shoulder apart by hand. Cheap, effective, and I always keep a box on hand.',
-          url:'https://link.amazon/B0aetLVbT'
-        },
-        {
-          name:'Wiltshire Bar-B Tong, 35cm',
-          blurb:'A decent, sturdy pair of tongs makes more difference than people expect. The long handle keeps your hand well clear of the heat, and it\u2019s the tool I reach for more than anything else in the kit.',
-          url:'https://link.amazon/B07Sj8yWN'
-        },
-        {
-          name:'Glad Aluminium Foil, 50m',
-          blurb:'The unsung hero of any smoker setup — wrapping a brisket through the stall, lining a drip tray, or just keeping food warm on the rest. Having a big roll on hand means I never run short mid-cook.',
-          url:'https://link.amazon/B03Al47Qx'
-        },
-        {
-          name:'Wiltshire Bar-B Medium Foil Trays, 3-Piece Pack',
-          blurb:'Handy for catching drippings, holding a rub-covered roast before it goes on, or just serving straight off the smoker with less cleanup after. Simple and reusable enough to get real mileage out of.',
-          url:'https://link.amazon/B0aUromEG'
-        },
-        {
-          name:'Heat Beads BBQ Briquettes',
-          blurb:'What I fuel the smoker with for anything long and slow. It burns steady and predictable for hours, which takes one less thing to worry about on a big cook.',
-          url:'https://www.bunnings.com.au/search/products?q=heat%20beads%20bbq%20briquettes',
-          urlLabel:'View at Bunnings'
-        }
-      ]
     }
   ];
 
@@ -2094,27 +1925,6 @@
         return;
       }
 
-      if (item.isKitPage) {
-        section.innerHTML = `
-          <div class="wood-intro">
-            <span class="eyebrow">${item.category}</span>
-            <h2>${item.title}</h2>
-            <p>${item.desc}</p>
-          </div>
-          <div class="kit-list">
-            ${item.kitItems.map(k => `
-              <div class="card kit-card">
-                <h3>${k.name}</h3>
-                ${k.url ? `<a href="${k.url}" target="_blank" rel="noopener" class="kit-buy-link">${k.urlLabel || 'View on Amazon'}</a>` : ''}
-                <p>${k.blurb}</p>
-              </div>
-            `).join('')}
-          </div>
-        `;
-        panels.appendChild(section);
-        return;
-      }
-
       if (item.isSideDish) {
         section.innerHTML = `
           <div class="sides-intro">
@@ -2218,19 +2028,11 @@
 
         ${item.rub ? `
         <div class="card rub-card">
-          <h3>${item.rubTitle || 'Dry Rub'}</h3>
+          <h3>Dry Rub</h3>
           <p class="rub-note">${item.rubNote}</p>
           <ul class="rub-list">
             ${item.rub.map(r => `<li><span>${r.name}</span><span class="rub-amt">${r.amt ? r.amt : r.grams + ' g'}</span></li>`).join('')}
           </ul>
-          ${item.rubImage ? `
-          <div class="rub-product">
-            <img src="${item.rubImage}" alt="${item.rubImageAlt || item.rubProductName || ''}" class="rub-product-img">
-            <div>
-              ${item.rubProductName ? `<div class="rub-product-name">${item.rubProductName}</div>` : ''}
-              ${item.rubBuyUrl ? `<a href="${item.rubBuyUrl}" target="_blank" rel="noopener" class="kit-buy-link">${item.rubBuyLabel || 'View on Amazon'}</a>` : ''}
-            </div>
-          </div>` : ''}
         </div>` : ''}
 
         <div class="details-grid">
@@ -2396,17 +2198,12 @@
 </script>
 
 <!--
-  Visitor analytics (Microsoft Clarity — free, unlimited; heatmaps + session
-  recordings). Dashboard: https://clarity.microsoft.com (login-protected).
-  Loads async; never blocks rendering and is not part of the service-worker cache.
+  Visitor analytics (GoatCounter — free, cookie-less, no consent banner needed).
+  Dashboard: https://simian.goatcounter.com (private, login-protected).
+  This tag only counts real page loads; it does nothing offline and never
+  blocks rendering (async, and it's not part of the service-worker cache).
 -->
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "y6kmf1i3by");
-</script>
+<script data-goatcounter="https://simian.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
 
 </body>
 </html>
