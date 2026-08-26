@@ -2,6 +2,17 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+  // Apply saved theme preference before first paint to avoid a flash of the wrong theme.
+  (function(){
+    try{
+      var saved = localStorage.getItem('lowAndSlowTheme');
+      if(saved === 'light'){
+        document.documentElement.setAttribute('data-theme','light');
+      }
+    }catch(err){ /* localStorage unavailable — default (dark) theme applies */ }
+  })();
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Fire. Smoke. Time. — A BBQ Field Guide</title>
 
@@ -35,9 +46,28 @@
     --grey-zone:   #3c4249;
     --dark-zone:   #23262b;
     --line:        #2c3036;
+    --chip-bg:     rgba(18,19,22,.3);
     --radius-s: 6px;
     --radius-m: 12px;
     --radius-l: 20px;
+  }
+
+  html[data-theme="light"]{
+    --char:        #f7f4ef;
+    --char-2:      #ffffff;
+    --panel:       #ffffff;
+    --card:        #ffffff;
+    --kraft:       #5a6470;
+    --kraft-dim:   #9099a3;
+    --bone:        #211f1c;
+    --smoke:       #5a6067;
+    --ember:       #f2c9c2;
+    --ember-bright:#c62f45;
+    --amber:       #3d6a86;
+    --grey-zone:   #3c4249;
+    --dark-zone:   #23262b;
+    --line:        #ddd8cf;
+    --chip-bg:     rgba(255,255,255,.7);
   }
 
   *{ box-sizing:border-box; }
@@ -961,8 +991,43 @@
   .site-home-link:active{ transform:scale(.96); }
   .site-home-link svg{ width:14px; height:14px; }
   .masthead{ position:relative; }
+
+  .site-theme-toggle{
+    position:absolute; top:max(16px, env(safe-area-inset-top)); right:18px;
+    z-index:4;
+  }
+  .theme-switch{ display:inline-flex; align-items:center; gap:8px; }
+  .theme-switch-label{
+    font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.03em;
+    color:var(--kraft); user-select:none;
+  }
+  .theme-switch-track{
+    position:relative; width:46px; height:26px;
+    border:1px solid var(--line); border-radius:999px;
+    background:var(--chip-bg); backdrop-filter:blur(8px);
+    cursor:pointer; padding:0; flex-shrink:0;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .theme-switch-thumb{
+    position:absolute; top:2px; left:2px;
+    width:20px; height:20px; border-radius:50%;
+    background:var(--ember-bright);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--char);
+    transition:transform .18s ease;
+  }
+  .theme-switch-thumb svg{ width:12px; height:12px; }
+  .theme-switch-thumb .icon-sun{ display:none; }
+  .theme-switch-thumb .icon-moon{ display:inline-flex; }
+  html[data-theme="light"] .theme-switch-thumb{ transform:translateX(20px); }
+  html[data-theme="light"] .theme-switch-thumb .icon-sun{ display:inline-flex; }
+  html[data-theme="light"] .theme-switch-thumb .icon-moon{ display:none; }
+  .theme-switch-track:active .theme-switch-thumb{ transform:scale(.92); }
+  html[data-theme="light"] .theme-switch-track:active .theme-switch-thumb{ transform:translateX(20px) scale(.92); }
+
   @media (max-width:560px){
     .site-home-link{ top:max(10px, env(safe-area-inset-top)); left:10px; padding:8px 11px; }
+    .site-theme-toggle{ top:max(10px, env(safe-area-inset-top)); right:10px; }
     .masthead{ padding-top:72px; }
   }
 </style>
@@ -973,6 +1038,17 @@
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
   Home
 </a>
+<div class="site-theme-toggle">
+  <div class="theme-switch">
+    <span class="theme-switch-label" id="themeToggleLabel">Dark</span>
+    <button type="button" class="theme-switch-track" id="themeToggleBtn" role="switch" aria-checked="false" aria-label="Switch between dark and light theme">
+      <span class="theme-switch-thumb">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </span>
+    </button>
+  </div>
+</div>
 
 
 <header class="masthead">
@@ -1380,6 +1456,53 @@
       ]
     },
     {
+      id:'chickenthighs', tabName:'Chicken Thighs', tabSub:'Chicken', icon:'chicken',
+      category:'Chicken · Bone-In Thighs', title:'Chicken Thighs',
+      desc:'Bone-in, skin-on thighs — the most forgiving cut on the bird. This one takes an American-style paprika and brown sugar rub instead of the usual chicken salt route.',
+      weight:'≈1–1.2 kg (8 bone-in, skin-on thighs)',
+      smokerC:[121,135], midC:70, midLabel:'Check skin colour / baste', targetC:[78,82],
+      restNote:'5–10 min, loosely tented',
+      cookTimeNote:'≈75–90 min',
+      wood:['River red gum','Ironbark','Apple'],
+      woodUS:['Oak','Hickory','Apple'],
+      rubNote:'Makes about 90g — enough for 8 bone-in thighs. A classic American BBQ rub built on paprika and brown sugar, leaning sweet and smoky rather than the chicken-salt-and-lemon-pepper route.',
+      rubImage:'./lanes-magic-dust-rub.png',
+      rubImageAlt:'Lane\u2019s Magic Dust Rub/Seasoning jar',
+      rubProductName:'Lane\u2019s Magic Dust Rub if you prefer ready made',
+      rubBuyUrl:'https://link.amazon/B00Abwav7',
+      rub:[
+        {name:'Brown sugar', grams:25},
+        {name:'Smoked paprika', grams:20},
+        {name:'Coarse kosher salt', grams:15},
+        {name:'Garlic powder', grams:10},
+        {name:'Onion powder', grams:10},
+        {name:'Chili powder', grams:5},
+        {name:'Cayenne pepper', grams:3},
+        {name:'Cracked black pepper', grams:2}
+      ],
+      method:(P, PR) => [
+        'Pat the thighs dry and trim any excess overhanging skin so it renders evenly instead of shrinking up.',
+        'Season generously with the rub, working some under the skin as well as over it.',
+        `Smoke skin-side up at ${PR(121,135)} over indirect heat, checking around ${P(70)} for skin colour and basting if it needs help.`,
+        `Keep going to ${PR(78,82)} internal — thighs are forgiving enough to handle the extra time and get more tender past the minimum safe temp.`,
+        'In the last 10–15 minutes, brush on the Aussie finishing BBQ sauce (see Sides) and let it tack up and caramelise rather than just sit on top.',
+        'For crispier skin, finish over hotter coals or under a grill for a few minutes at the end, watching closely so the sauce doesn\u2019t catch and burn.',
+        'Rest loosely tented for 5–10 minutes, then serve with extra sauce on the side.'
+      ],
+      tips:[
+        'Thighs are far more forgiving than breast — a few extra degrees past done won\u2019t dry them out the way it would on white meat.',
+        'Bone-in, skin-on holds moisture much better than boneless over a long smoke.',
+        'A wire rack on a tray lets air circulate underneath and helps the skin crisp evenly on all sides.',
+        'The brown sugar in this rub means it can catch and blacken fast over direct heat — keep the final crisping step short and watch it closely.',
+        'The finishing sauce has sugar in it too, so brush it on late and keep an eye on it if you\u2019re finishing over hot coals.'
+      ],
+      strip:[
+        {label:'Chamber', c:'121–135'},
+        {label:'Skin check', c:'70'},
+        {label:'Doneness', c:'78–82'}
+      ]
+    },
+    {
       id:'lambleg', tabName:'Lamb Leg', tabSub:'Lamb', icon:'lamb',
       category:'Lamb · Whole Leg', title:'Lamb Leg',
       desc:'Bone-in leg of lamb, smoked low and slow with the classic Sunday-roast flavours of rosemary, garlic and lemon rather than a heavy American-style rub.',
@@ -1574,6 +1697,34 @@
         'Bring to a simmer, stirring until the sugar and salt fully dissolve.',
         'Pour the hot brine over the onions, making sure they\u2019re fully submerged.',
         'Let cool uncovered to room temperature, then cover and rest at least 1 hour before serving. Keeps refrigerated up to 2 weeks.'
+      ]
+    },
+    {
+      id:'finishingsauce', tabName:'Finishing BBQ Sauce', tabSub:'Sides', icon:'sides',
+      isSideDish:true,
+      category:'Extras · Sauce', title:'Aussie Finishing BBQ Sauce',
+      tag:'Stovetop', time:'15 min', temp:'Simmer, low', yield:'Makes about 500 ml',
+      desc:'A tangy malt vinegar and golden syrup glaze built on true Aussie pantry staples — tomato sauce, Worcestershire, and a dab of Vegemite for backbone. Brush it on in the last few minutes, or serve warm on the side.',
+      ingredients:[
+        {name:'Tomato sauce', amt:'250 ml'},
+        {name:'Malt vinegar', amt:'60 ml'},
+        {name:'Worcestershire sauce', amt:'40 ml'},
+        {name:'Brown sugar', amt:'60 g'},
+        {name:'Golden syrup', amt:'30 ml'},
+        {name:'Vegemite', amt:'1 tsp'},
+        {name:'Garlic, crushed', amt:'2 cloves'},
+        {name:'Onion powder', amt:'1 tsp'},
+        {name:'Smoked paprika', amt:'1 tsp'},
+        {name:'Mustard powder', amt:'1 tsp'},
+        {name:'Cracked black pepper', amt:'\u00bd tsp'},
+        {name:'Water, to loosen', amt:'60 ml'}
+      ],
+      method:[
+        'Combine all ingredients in a small saucepan over low-medium heat.',
+        'Whisk until the Vegemite and brown sugar fully dissolve into the sauce.',
+        'Simmer gently for 10\u201315 minutes, stirring occasionally, until slightly thickened and glossy.',
+        'Taste and adjust — more malt vinegar for tang, more golden syrup for sweetness.',
+        'Brush onto meat in the last 10\u201315 minutes of cooking so it caramelises without burning, or serve warm on the side. Keeps refrigerated up to 2 weeks.'
       ]
     },
     {
@@ -2317,6 +2468,41 @@
       });
     });
   }
+</script>
+
+<script>
+  (function(){
+    const THEME_KEY = 'lowAndSlowTheme';
+    const btn = document.getElementById('themeToggleBtn');
+    const label = document.getElementById('themeToggleLabel');
+    const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+    const DARK_THEME_COLOR = '#121316';
+    const LIGHT_THEME_COLOR = '#f7f4ef';
+
+    function applyTheme(theme){
+      if(theme === 'light'){
+        document.documentElement.setAttribute('data-theme','light');
+        if(label) label.textContent = 'Light';
+        if(btn) btn.setAttribute('aria-checked','true');
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        if(label) label.textContent = 'Dark';
+        if(btn) btn.setAttribute('aria-checked','false');
+      }
+      if(themeColorMeta) themeColorMeta.setAttribute('content', theme === 'light' ? LIGHT_THEME_COLOR : DARK_THEME_COLOR);
+    }
+
+    let currentTheme = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+    applyTheme(currentTheme);
+
+    if(btn){
+      btn.addEventListener('click', () => {
+        currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+        applyTheme(currentTheme);
+        try{ localStorage.setItem(THEME_KEY, currentTheme); }catch(err){ /* ignore */ }
+      });
+    }
+  })();
 </script>
 
 <script>
