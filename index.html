@@ -8,7 +8,7 @@
 <link rel="canonical" href="https://www.firesmoketime.workers.dev/">
 
 <!-- Redirect for search engines and browsers with JS disabled -->
-<meta http-equiv="refresh" content="3; url=https://www.firesmoketime.workers.dev/">
+<meta http-equiv="refresh" content="8; url=https://www.firesmoketime.workers.dev/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,11 +84,20 @@
       your bookmark when you get a chance.
     </p>
     <a class="btn" href="https://www.firesmoketime.workers.dev/">Go to the new site</a>
-    <p class="fine">Redirecting automatically in a few seconds… or <a href="https://www.firesmoketime.workers.dev/">click here</a>.</p>
+    <p class="fine">Redirecting automatically in <span id="count">8</span> seconds… or <a href="https://www.firesmoketime.workers.dev/">click here</a>.</p>
   </div>
 
   <script>
-    window.location.replace("https://www.firesmoketime.workers.dev/");
+    var seconds = 8;
+    var countEl = document.getElementById('count');
+    var timer = setInterval(function(){
+      seconds -= 1;
+      if(countEl) countEl.textContent = seconds;
+      if(seconds <= 0){
+        clearInterval(timer);
+        window.location.replace("https://www.firesmoketime.workers.dev/");
+      }
+    }, 1000);
   </script>
 </body>
 </html>
